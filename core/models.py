@@ -1,6 +1,6 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-
+from core import managers
 
 # Create your models here.
 class Task(models.Model):
@@ -23,6 +23,8 @@ class Task(models.Model):
         on_delete=models.DO_NOTHING,
         db_column='id_user'
     )
+
+    objects = managers.TaskManager()
 
     def __str__(self):
         return self.title
