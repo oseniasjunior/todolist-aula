@@ -3,5 +3,6 @@ from core import viewsets
 
 router = DefaultRouter()
 router.register('tasks', viewsets.TaskModelViewSet)
+router.register('tasks_work_time', viewsets.TaskWorkTimeModelViewSet)
 
 urlpatterns = router.urls

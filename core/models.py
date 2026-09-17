@@ -2,6 +2,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 from core import managers
 
+
 # Create your models here.
 class Task(models.Model):
     class Status(models.TextChoices):
@@ -23,6 +24,7 @@ class Task(models.Model):
         on_delete=models.DO_NOTHING,
         db_column='id_user'
     )
+    total_worked_hours = models.IntegerField(db_column='nb_total_worked_hours', default=0)
 
     objects = managers.TaskManager()
 
@@ -31,4 +33,19 @@ class Task(models.Model):
 
     class Meta:
         db_table = 'task'
+        managed = True
+
+
+class TaskWorkTime(models.Model):
+    id = models.AutoField(primary_key=True)
+    task = models.ForeignKey(
+        to='Task',
+        on_delete=models.DO_NOTHING,
+        db_column='id_task'
+    )
+    hours = models.IntegerField(db_column='nb_hours')
+    date = models.DateTimeField(db_column='dt_date', auto_now_add=True)
+
+    class Meta:
+        db_table = 'task_work_time'
         managed = True

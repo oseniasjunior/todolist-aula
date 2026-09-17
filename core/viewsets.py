@@ -1,10 +1,31 @@
-from rest_framework import viewsets
-from core import serializers, models
+from rest_framework import viewsets, status
+from rest_framework.decorators import action
+from rest_framework.response import Response
+
+from core import serializers, models, filters, tasks
 
 
 class TaskModelViewSet(viewsets.ModelViewSet):
-    queryset = models.Task.objects.all() # select * from tasks
+    queryset = models.Task.objects.all()  # select * from tasks
     serializer_class = serializers.TaskSerializer
+    filterset_class = filters.TaskFilter
+    ordering_fields = '__all__'
+    ordering = ('-id',)
+
+    @action(methods=['post'], detail=True)
+    def create_file(self, request, *args, **kwargs):
+        task = self.get_object()
+        tasks.create_file.delay(task.id)
+        # tasks.create_file(task.id)
+        return Response(status=status.HTTP_200_OK, data={'message': 'O arquivo está sendo gerado'})
+
+    #
+    # @action(methods=['GET'], detail=False)
+    # def get_by_name(self, request, *args, **kwargs):
+    #     title = request.query_params.get('title', '')
+    #     self.queryset = self.queryset.filter(title__icontains=title)
+    #     return super().list(request, *args, **kwargs)
+
     #
     # # POST
     # def create(self, request, *args, **kwargs):
@@ -30,3 +51,7 @@ class TaskModelViewSet(viewsets.ModelViewSet):
     # def destroy(self, request, *args, **kwargs):
     #     return super().destroy(request, *args, **kwargs)
 
+
+class TaskWorkTimeModelViewSet(viewsets.ModelViewSet):
+    queryset = models.TaskWorkTime.objects.all()
+    serializer_class = serializers.TaskWorkTimeSerializer
