@@ -14,8 +14,8 @@ class TaskWorkTimeActions:
 class TaskActions:
     @staticmethod
     def generate_report_task():
-        _localtime = localtime()
-        tasks - models.Task.objects.all()
-        with open(f'report{-_localtime}.txt', 'w') as file:
+        temp = localtime().strftime('%Y_%M_%d_%H_%M_%S')
+        tasks = models.Task.objects.all()
+        with open(f'report{temp}.txt', 'w') as file:
             for task in tasks:
                 file.write(f'{task.title} - {task.total_worked_hours}\n')

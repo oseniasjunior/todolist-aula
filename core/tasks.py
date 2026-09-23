@@ -7,6 +7,6 @@ def create_file(task_id: int):
         for n in range(1, 100000001):
             file.write(f'{n}_{task_id}\n')
 
-@shared_task(queue='report')
+@shared_task()
 def report_tasks():
     actions.TaskActions.generate_report_task()

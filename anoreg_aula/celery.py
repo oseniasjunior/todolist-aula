@@ -16,7 +16,8 @@ app.conf.task_queues = (
 TASKS = {
     'report_tasks': {
         'task': 'core.tasks.report_tasks',
-        'schedule': 5
+        'schedule': 1.0,
+        'options': {'queue': 'report'},
     },
 }
 
