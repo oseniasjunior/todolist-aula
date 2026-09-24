@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'django_extensions',
     'django_filters',
-    'channels'
+    'channels',
+    'daphne'
 ]
 
 MIDDLEWARE = [
